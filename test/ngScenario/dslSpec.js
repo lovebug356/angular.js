@@ -368,23 +368,27 @@ describe("angular.scenario.dsl", function() {
       });
 
       it('should execute mousedown', function() {
-        var mousedDown;
+        var mousedDown = 0;
         doc.append('<div></div>');
         doc.find('div').mousedown(function() {
-          mousedDown = true;
+          mousedDown += 1;
         });
         $root.dsl.element('div').mousedown();
-        expect(mousedDown).toBe(true);
+        expect(mousedDown).toBe(1);
+        $root.dsl.element('div').mousedown();
+        expect(mousedDown).toBe(2);
       });
 
       it('should bubble up the mousedown event', function() {
-        var mousedDown;
+        var mousedDown = 0;
         doc.append('<div id="outer"><div id="inner"></div></div>');
         doc.find('#outer').mousedown(function() {
-          mousedDown = true;
+          mousedDown += 1;
         });
         $root.dsl.element('#inner').mousedown();
-        expect(mousedDown).toBe(true);
+        expect(mousedDown).toBe(1);
+        $root.dsl.element('#inner').mousedown();
+        expect(mousedDown).toBe(2);
       });
 
       it('should execute mouseup', function() {
